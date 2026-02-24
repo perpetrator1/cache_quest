@@ -1,14 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'http://127.0.0.1:54321';
-const supabaseAnonKey = 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH';
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
+const adminEmail = process.env.ADMIN_EMAIL;
+const adminPassword = process.env.ADMIN_PASSWORD;
+
+if (!supabaseUrl || !supabaseAnonKey || !adminEmail || !adminPassword) {
+    console.error('Missing required environment variables. Check your .env file.');
+    process.exit(1);
+}
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 async function createAdmin() {
     const { data, error } = await supabase.auth.signUp({
-        email: 'admin@cashquest.com',
-        password: 'adminpassword123',
+        email: adminEmail,
+        password: adminPassword,
     });
 
     if (error) {
