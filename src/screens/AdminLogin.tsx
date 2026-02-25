@@ -16,7 +16,7 @@ export default function AdminLogin() {
         setError(null);
 
         // Convenience shortcut: "admin" / "admin" maps to real Supabase Auth credentials
-        const loginEmail = email === 'admin' ? 'admin@cashquest.com' : email;
+        const loginEmail = email === 'admin' ? 'admin@CacheQuest.com' : email;
         const loginPassword = password === 'admin' && email === 'admin' ? 'adminpassword123' : password;
 
         const { error } = await supabase.auth.signInWithPassword({
@@ -44,7 +44,7 @@ export default function AdminLogin() {
                     </div>
                 </div>
 
-                <h1 className="admin-login-title">Welcome to CashQuest</h1>
+                <h1 className="admin-login-title">Welcome to CacheQuest</h1>
                 <p className="admin-login-sub">Sign in to Mission Control</p>
 
                 <form onSubmit={handleLogin} className="admin-login-form">
@@ -55,7 +55,7 @@ export default function AdminLogin() {
                             className="admin-login-input"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="admin@cashquest.com"
+                            placeholder="admin@CacheQuest.com"
                             required
                             autoFocus
                         />

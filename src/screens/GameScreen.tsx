@@ -29,8 +29,8 @@ export default function GameScreen() {
     const [mapClickMode, setMapClickMode] = useState(false);
 
     // ─── User Session ───
-    const [userId, setUserId] = useState<string | null>(() => localStorage.getItem('cashquest_user_id'));
-    const [teamName, setTeamName] = useState<string | null>(() => localStorage.getItem('cashquest_team_name'));
+    const [userId, setUserId] = useState<string | null>(() => localStorage.getItem('CacheQuest_user_id'));
+    const [teamName, setTeamName] = useState<string | null>(() => localStorage.getItem('CacheQuest_team_name'));
 
     // ─── Caches (via shared hook) ───
     const { caches } = useCaches({
@@ -174,8 +174,8 @@ export default function GameScreen() {
     }, []);
 
     const handleSignOut = useCallback(() => {
-        localStorage.removeItem('cashquest_user_id');
-        localStorage.removeItem('cashquest_team_name');
+        localStorage.removeItem('CacheQuest_user_id');
+        localStorage.removeItem('CacheQuest_team_name');
         setUserId(null);
         setTeamName(null);
         setSheetOpen(false);

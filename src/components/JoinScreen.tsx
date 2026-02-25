@@ -27,8 +27,8 @@ export default function JoinScreen({ onJoin }: JoinScreenProps) {
             .single();
 
         if (existingUser) {
-            localStorage.setItem('cashquest_user_id', existingUser.id);
-            localStorage.setItem('cashquest_team_name', name);
+            localStorage.setItem('CacheQuest_user_id', existingUser.id);
+            localStorage.setItem('CacheQuest_team_name', name);
             onJoin(existingUser.id, name);
             setLoading(false);
             return;
@@ -48,8 +48,8 @@ export default function JoinScreen({ onJoin }: JoinScreenProps) {
         }
 
         if (data) {
-            localStorage.setItem('cashquest_user_id', data.id);
-            localStorage.setItem('cashquest_team_name', data.team_name);
+            localStorage.setItem('CacheQuest_user_id', data.id);
+            localStorage.setItem('CacheQuest_team_name', data.team_name);
             onJoin(data.id, data.team_name);
         }
     };

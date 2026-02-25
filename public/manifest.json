@@ -1,6 +1,6 @@
 {
-    "name": "CashQuest",
-    "short_name": "CashQuest",
+    "name": "CacheQuest",
+    "short_name": "CacheQuest",
     "theme_color": "#0a0a0f",
     "background_color": "#0a0a0f",
     "display": "standalone",

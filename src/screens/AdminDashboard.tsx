@@ -51,7 +51,7 @@ export default function AdminDashboard() {
                 <div className="admin-logo">
                     <div className="admin-logo-icon">C</div>
                     <div>
-                        <div className="admin-logo-title">CashQuest</div>
+                        <div className="admin-logo-title">CacheQuest</div>
                         <div className="admin-logo-sub">Mission Control</div>
                     </div>
                 </div>
