@@ -28,7 +28,7 @@ export default function AdminDashboard() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     // Settings state
-    const [showLivePlayers, setShowLivePlayers] = useState(true);
+    const [showLivePlayers, setShowLivePlayers] = useState(false);
     const [trackingInterval, setTrackingInterval] = useState(5);
 
     const handleSignOut = async () => {

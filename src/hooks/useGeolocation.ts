@@ -28,13 +28,15 @@ const EMA_ALPHA = 0.15;
 /** Discard readings with accuracy worse than this (meters) */
 const MAX_ACCEPTABLE_ACCURACY = 100;
 /** Minimum movement (meters) before pushing a state update to avoid render churn */
-const MIN_MOVEMENT_THRESHOLD = 3;
+const MIN_MOVEMENT_THRESHOLD = 5;
 /** If no successful position arrives within this window, mark as stale */
 const STALENESS_TIMEOUT_MS = 30_000;
+/** Consecutive sub-threshold readings before snapping (freezing) position */
+const SNAP_AFTER_STABLE_COUNT = 3;
 
 const WATCH_OPTIONS: PositionOptions = {
     enableHighAccuracy: true,
-    maximumAge: 2000,
+    maximumAge: 5000,
     timeout: 20000,
 };
 
@@ -96,12 +98,38 @@ export function useGeolocation(): GeolocationState {
     const lastPushedRef = useRef<GeoPosition | null>(null);
     const stalenessTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const watchIdRef = useRef<number | null>(null);
+    const stableCountRef = useRef(0);
 
     // ─── Process a successful position reading ───
     const handlePosition = useCallback((pos: GeolocationCoordinates) => {
         // Gate: discard wildly inaccurate readings
         if (pos.accuracy > MAX_ACCEPTABLE_ACCURACY && smoothedRef.current) {
             return;
+        }
+
+        // Speed-based filter: if device reports near-zero speed, skip update
+        // (speed is null on some devices, so only filter when explicitly available)
+        if (pos.speed !== null && pos.speed >= 0 && pos.speed < 0.3 && smoothedRef.current) {
+            // Device reports stationary — bump stable count and skip
+            stableCountRef.current++;
+            if (stableCountRef.current >= SNAP_AFTER_STABLE_COUNT) {
+                // Already snapped; just refresh staleness timer and return
+                if (stalenessTimerRef.current) clearTimeout(stalenessTimerRef.current);
+                stalenessTimerRef.current = setTimeout(() => {
+                    setState(prev => ({ ...prev, stale: true, error: 'Location signal lost. Move to an open area.' }));
+                }, STALENESS_TIMEOUT_MS);
+                // Still clear loading/error flags if needed
+                setState(prev => {
+                    if (prev.loading || prev.error || prev.stale || prev.permissionState !== 'granted') {
+                        return { ...prev, error: null, loading: false, permissionState: 'granted', stale: false };
+                    }
+                    return prev;
+                });
+                return;
+            }
+        } else {
+            // Moving — reset stable counter
+            stableCountRef.current = 0;
         }
 
         const raw: GeoPosition = {

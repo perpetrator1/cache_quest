@@ -72,10 +72,11 @@ export default function GameScreen() {
     }, [mockLocation, geo.latitude, geo.longitude]);
 
     // ─── Live Player Tracking (Broadcast) ───
+    const [trackingEnabled] = useState(() => localStorage.getItem('CacheQuest_tracking') === 'true');
     const trackingChannelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
     useEffect(() => {
-        if (!userId || !teamName) {
+        if (!userId || !teamName || !trackingEnabled) {
             if (trackingChannelRef.current) {
                 trackingChannelRef.current.untrack();
                 supabase.removeChannel(trackingChannelRef.current);
@@ -96,7 +97,7 @@ export default function GameScreen() {
             supabase.removeChannel(channel);
             trackingChannelRef.current = null;
         };
-    }, [userId, teamName]);
+    }, [userId, teamName, trackingEnabled]);
 
     const lastBroadcastRef = useRef<number>(0);
     const pendingBroadcastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -119,7 +120,7 @@ export default function GameScreen() {
 
         const now = Date.now();
         const timeSinceLast = now - lastBroadcastRef.current;
-        const cooldown = 5000;
+        const cooldown = 15000;
 
         if (timeSinceLast >= cooldown) {
             broadcast();
