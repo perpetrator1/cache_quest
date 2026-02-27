@@ -6,7 +6,7 @@ import { useCaches } from '../hooks/useCaches';
 import { useLivePlayers } from '../hooks/useLivePlayers';
 import CachesView from '../components/admin/CachesView';
 import Toast from '../components/Toast';
-import { LogOut, RefreshCw, Box, BarChart3, Settings, AlertTriangle, Users, MapPin, Trophy, Radio } from 'lucide-react';
+import { LogOut, RefreshCw, Box, BarChart3, Settings, AlertTriangle, Users, MapPin, Trophy, Radio, Menu } from 'lucide-react';
 
 type ViewType = 'caches' | 'dashboard' | 'settings';
 
@@ -23,6 +23,9 @@ export default function AdminDashboard() {
     const [resetInput, setResetInput] = useState('');
     const [resetting, setResetting] = useState(false);
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+    // Mobile sidebar
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     // Settings state
     const [showLivePlayers, setShowLivePlayers] = useState(true);
@@ -44,10 +47,33 @@ export default function AdminDashboard() {
         setResetInput('');
     };
 
+    const handleNavClick = (view: ViewType) => {
+        setCurrentView(view);
+        setSidebarOpen(false);
+    };
+
     return (
         <div className="admin-shell">
+            {/* ─── Mobile Header ─── */}
+            <div className="admin-mobile-header">
+                <button
+                    className="admin-mobile-hamburger"
+                    onClick={() => setSidebarOpen(true)}
+                    aria-label="Open menu"
+                >
+                    <Menu size={22} />
+                </button>
+                <span className="admin-mobile-title">CacheQuest</span>
+            </div>
+
+            {/* ─── Sidebar Backdrop (mobile only) ─── */}
+            <div
+                className={`admin-sidebar-backdrop ${sidebarOpen ? 'open' : ''}`}
+                onClick={() => setSidebarOpen(false)}
+            />
+
             {/* ─── Sidebar ─── */}
-            <aside className="admin-sidebar">
+            <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
                 <div className="admin-logo">
                     <div className="admin-logo-icon">C</div>
                     <div>
@@ -60,7 +86,7 @@ export default function AdminDashboard() {
                     {NAV_ITEMS.map(item => (
                         <button
                             key={item.id}
-                            onClick={() => setCurrentView(item.id)}
+                            onClick={() => handleNavClick(item.id)}
                             className={`admin-nav-item ${currentView === item.id ? 'active' : ''}`}
                         >
                             {item.icon}
@@ -71,7 +97,7 @@ export default function AdminDashboard() {
 
                 <div className="admin-sidebar-footer">
                     <button
-                        onClick={() => { setShowResetPrompt(true); setResetInput(''); }}
+                        onClick={() => { setShowResetPrompt(true); setResetInput(''); setSidebarOpen(false); }}
                         className="admin-nav-item danger"
                         disabled={resetting}
                     >

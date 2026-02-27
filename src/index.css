@@ -2396,3 +2396,261 @@ body,
   cursor: pointer;
   flex-shrink: 0;
 }
+
+/* ═══════════════════════════════════════════
+   Mobile-header (hidden on desktop, shown ≤768px)
+   ═══════════════════════════════════════════ */
+.admin-mobile-header {
+  display: none;
+}
+
+.admin-sidebar-backdrop {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — Mobile  (max-width: 768px)
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ─── Admin shell: stack vertically ─── */
+  .admin-shell {
+    flex-direction: column;
+  }
+
+  /* ─── Mobile header bar ─── */
+  .admin-mobile-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 52px;
+    padding: 0 16px;
+    background: #111118;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+    z-index: 60;
+  }
+
+  .admin-mobile-hamburger {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    color: #e2e2ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+
+  .admin-mobile-hamburger:active {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .admin-mobile-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+  }
+
+  /* ─── Off-canvas sidebar ─── */
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100dvh;
+    z-index: 80;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* Backdrop behind sidebar */
+  .admin-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 75;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .admin-sidebar-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ─── Admin main fills remaining height ─── */
+  .admin-main {
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ─── Caches layout: stack vertically ─── */
+  .admin-caches-layout {
+    flex-direction: column;
+  }
+
+  .admin-list-panel {
+    width: 100%;
+    max-height: 38dvh;
+    flex-shrink: 0;
+  }
+
+  .admin-map-panel {
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ─── Detail panel → bottom sheet ─── */
+  .admin-detail-panel {
+    position: fixed;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 55dvh;
+    border-radius: 16px 16px 0 0;
+    z-index: 50;
+  }
+
+  /* ─── Stats grid: 2 columns ─── */
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ─── Dashboard & settings: tighter padding ─── */
+  .admin-dashboard-view {
+    padding: 16px;
+  }
+
+  .admin-settings-view {
+    padding: 16px;
+  }
+
+  .admin-view-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .admin-stat-value {
+    font-size: 22px;
+  }
+
+  .admin-stat-card {
+    padding: 14px;
+  }
+
+  /* ─── Table: tighter on mobile ─── */
+  .admin-table-head,
+  .admin-table-row {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .admin-table-head {
+    font-size: 10px;
+  }
+
+  /* ─── Players grid: single column ─── */
+  .admin-players-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─── Settings items: stack on mobile ─── */
+  .admin-settings-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /* ─── Leaderboard: full-width on mobile ─── */
+  .leaderboard-panel {
+    max-width: 100%;
+  }
+
+  /* ─── FAB adjustments for mobile thumb reach ─── */
+  .fab-recenter {
+    bottom: calc(env(safe-area-inset-bottom, 16px) + 20px);
+    right: 16px;
+  }
+
+  .fab-leaderboard {
+    bottom: calc(env(safe-area-inset-bottom, 16px) + 78px);
+    right: 16px;
+  }
+
+  /* ─── Status pill: slightly smaller ─── */
+  .status-pill {
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+
+  /* ─── Toast: ensure it doesn't overflow ─── */
+  .toast {
+    max-width: calc(100vw - 32px);
+    white-space: normal;
+    text-align: center;
+  }
+
+  /* ─── Admin login: tighter card padding ─── */
+  .admin-login-card {
+    padding: 32px 24px 28px;
+  }
+
+  /* ─── Map pick banner: narrower ─── */
+  .admin-map-pick-banner {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  /* ─── Modal: tighter padding ─── */
+  .admin-modal {
+    padding: 24px 20px;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — Tablet (769px – 1024px)
+   ═══════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  /* ─── Narrower sidebar ─── */
+  .admin-sidebar {
+    width: 200px;
+  }
+
+  /* ─── Narrower list panel ─── */
+  .admin-list-panel {
+    width: 280px;
+  }
+
+  /* ─── Stats grid: 2 columns on tablet too ─── */
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ─── Detail panel: narrower ─── */
+  .admin-detail-panel {
+    width: 300px;
+  }
+
+  /* ─── Dashboard: moderate padding ─── */
+  .admin-dashboard-view {
+    padding: 24px;
+  }
+
+  .admin-settings-view {
+    padding: 24px;
+  }
+}
