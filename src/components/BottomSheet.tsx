@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Cache } from '../lib/types';
 
 /** Distance in meters at which hint becomes visible */
-const HINT_PROXIMITY_METERS = 10;
+const HINT_PROXIMITY_METERS = 50;
 
 interface BottomSheetProps {
     cache: Cache | null;

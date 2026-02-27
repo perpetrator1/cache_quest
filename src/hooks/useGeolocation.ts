@@ -24,11 +24,11 @@ interface GeolocationState {
 // ─── Constants ───
 
 /** EMA smoothing factor: 0 = ignore new readings, 1 = no smoothing */
-const EMA_ALPHA = 0.3;
+const EMA_ALPHA = 0.15;
 /** Discard readings with accuracy worse than this (meters) */
 const MAX_ACCEPTABLE_ACCURACY = 100;
 /** Minimum movement (meters) before pushing a state update to avoid render churn */
-const MIN_MOVEMENT_THRESHOLD = 1;
+const MIN_MOVEMENT_THRESHOLD = 3;
 /** If no successful position arrives within this window, mark as stale */
 const STALENESS_TIMEOUT_MS = 30_000;
 
